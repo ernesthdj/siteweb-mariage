@@ -1,0 +1,7 @@
+{
+  "name": "Atypique - Fine Art Wedding Photography",
+  "description": "An immersive digital gallery for luxury wedding photography featuring spatial navigation, organic textures, and hand-drawn aesthetics.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
