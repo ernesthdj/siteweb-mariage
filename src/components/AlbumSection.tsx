@@ -12,7 +12,6 @@ import { useAdmin } from './admin/AdminContext';
 import ItemControls from './admin/ItemControls';
 import AddItemButton from './admin/AddItemButton';
 import ItemForm from './admin/ItemForm';
-import Breadcrumb from './gallery/Breadcrumb';
 import { supabase } from '../lib/supabase';
 import type { Item, CreateItemPayload, UpdateItemPayload } from '../types';
 
@@ -163,18 +162,6 @@ const AlbumSection: React.FC = () => {
     setFormOpen(false);
     setEditingItem(undefined);
   }, []);
-
-  // Breadcrumb
-  const basePath = isAdminRoute ? '/admin/portfolio' : '/portfolio';
-  const breadcrumbSegments = [
-    {
-      label: 'Collections',
-      onClick: () => navigate(basePath),
-    },
-    {
-      label: parentCollection?.label ?? 'Albums',
-    },
-  ];
 
   if (loading) {
     return (

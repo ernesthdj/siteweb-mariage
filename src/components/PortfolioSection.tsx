@@ -12,7 +12,6 @@ import { useAdmin } from './admin/AdminContext';
 import ItemControls from './admin/ItemControls';
 import AddItemButton from './admin/AddItemButton';
 import ItemForm from './admin/ItemForm';
-import Breadcrumb from './gallery/Breadcrumb';
 import type { Item, CreateItemPayload, UpdateItemPayload } from '../types';
 
 /** Carte visuelle d'une collection — reprend le style ThemeCanvas */
@@ -196,8 +195,6 @@ const PortfolioSection: React.FC = () => {
     setEditingItem(undefined);
   }, []);
 
-  // Breadcrumb
-  const breadcrumbSegments = [{ label: 'Collections' }];
 
   if (loading) {
     return (

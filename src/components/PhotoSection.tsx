@@ -6,13 +6,12 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useItems } from '../hooks/useItems';
 import { useAdmin } from './admin/AdminContext';
 import ItemControls from './admin/ItemControls';
 import AddItemButton from './admin/AddItemButton';
 import ItemForm from './admin/ItemForm';
-import Breadcrumb from './gallery/Breadcrumb';
 import ViewToggle from './gallery/ViewToggle';
 import MosaicWallView from './gallery/MosaicWallView';
 import { supabase } from '../lib/supabase';
@@ -269,10 +268,7 @@ const CarouselView: React.FC<{
 // ============================================================================
 
 const PhotoSection: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { collectionId, albumId } = useParams<{ collectionId: string; albumId: string }>();
-  const isAdminRoute = location.pathname.startsWith('/admin');
+  const { albumId } = useParams<{ collectionId: string; albumId: string }>();
   const { items, loading, error, fetchItems, createItem, updateItem, deleteItem } = useItems();
   const { isAdmin, isEditing } = useAdmin();
 
@@ -281,7 +277,6 @@ const PhotoSection: React.FC = () => {
   const [showCarousel, setShowCarousel] = useState(false);
 
   // Parents pour le breadcrumb
-  const [parentCollection, setParentCollection] = useState<{ id: string; label: string } | null>(null);
   const [parentAlbum, setParentAlbum] = useState<{ id: string; label: string } | null>(null);
 
   // Etat du formulaire
@@ -295,20 +290,16 @@ const PhotoSection: React.FC = () => {
     }
   }, [albumId, fetchItems]);
 
-  // Charger les noms des parents pour le breadcrumb
+  // Charger le nom de l'album parent pour le titre du carousel
   useEffect(() => {
-    if (!collectionId || !albumId) return;
+    if (!albumId) return;
 
-    const loadParents = async () => {
-      const [collRes, albRes] = await Promise.all([
-        supabase.from('items').select('id, label').eq('id', collectionId).single(),
-        supabase.from('items').select('id, label').eq('id', albumId).single(),
-      ]);
-      if (collRes.data) setParentCollection(collRes.data as { id: string; label: string });
-      if (albRes.data) setParentAlbum(albRes.data as { id: string; label: string });
+    const loadAlbum = async () => {
+      const { data } = await supabase.from('items').select('id, label').eq('id', albumId).single();
+      if (data) setParentAlbum(data as { id: string; label: string });
     };
-    void loadParents();
-  }, [collectionId, albumId]);
+    void loadAlbum();
+  }, [albumId]);
 
   const handlePhotoClick = useCallback((index: number) => {
     setCarouselStartIndex(index);
@@ -357,21 +348,6 @@ const PhotoSection: React.FC = () => {
     setEditingItem(undefined);
   }, []);
 
-  // Breadcrumb
-  const basePath = isAdminRoute ? '/admin/portfolio' : '/portfolio';
-  const breadcrumbSegments = [
-    {
-      label: 'Collections',
-      onClick: () => navigate(basePath),
-    },
-    {
-      label: parentCollection?.label ?? '...',
-      onClick: () => navigate(`${basePath}/${collectionId}`),
-    },
-    {
-      label: parentAlbum?.label ?? 'Photos',
-    },
-  ];
 
   if (loading) {
     return (
