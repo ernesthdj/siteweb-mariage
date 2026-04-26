@@ -7,7 +7,7 @@ interface UseCloudinaryReturn {
   loading: boolean;
   error: string | null;
   currentFolder: string;
-  browseFolders: (folder?: string) => Promise<void>;
+  browseFolders: (folder: string) => Promise<void>;
   goBack: () => void;
 }
 
@@ -17,24 +17,12 @@ export function useCloudinary(): UseCloudinaryReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentFolder, setCurrentFolder] = useState('');
-  const [folderHistory, setFolderHistory] = useState<string[]>([]);
-  const abortControllerRef = useRef<AbortController | null>(null);
-
-  useEffect(() => {
-    return () => {
-      abortControllerRef.current?.abort();
-    };
-  }, []);
+  const folderHistoryRef = useRef<string[]>([]);
+  const currentFolderRef = useRef('');
 
   const fetchFolder = useCallback(async (folder: string): Promise<CloudinaryBrowseResponse> => {
-    abortControllerRef.current?.abort();
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
-
     const params = folder ? `?folder=${encodeURIComponent(folder)}` : '';
-    const res = await fetch(`/api/cloudinary-browse${params}`, {
-      signal: controller.signal,
-    });
+    const res = await fetch(`/api/cloudinary-browse${params}`);
 
     if (!res.ok) {
       const data = await res.json();
@@ -44,34 +32,36 @@ export function useCloudinary(): UseCloudinaryReturn {
     return res.json() as Promise<CloudinaryBrowseResponse>;
   }, []);
 
-  const browseFolders = useCallback(async (folder?: string) => {
-    const targetFolder = folder ?? '';
+  const browseFolders = useCallback(async (folder: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetchFolder(targetFolder);
+      const response = await fetchFolder(folder);
       setFolders(response.folders ?? []);
       setImages(response.images ?? []);
 
-      if (folder !== undefined && (currentFolder !== '' || targetFolder !== '')) {
-        setFolderHistory(prev => [...prev, currentFolder]);
+      // Empiler le dossier courant dans l'historique avant de changer
+      if (currentFolderRef.current !== folder) {
+        folderHistoryRef.current = [...folderHistoryRef.current, currentFolderRef.current];
       }
-      setCurrentFolder(targetFolder);
+      currentFolderRef.current = folder;
+      setCurrentFolder(folder);
     } catch (err) {
-      if (err instanceof DOMException && err.name === 'AbortError') return;
       const message = err instanceof Error ? err.message : 'Erreur Cloudinary';
       setError(message);
     } finally {
       setLoading(false);
     }
-  }, [currentFolder, fetchFolder]);
+  }, [fetchFolder]);
 
   const goBack = useCallback(async () => {
-    if (folderHistory.length === 0) return;
+    const history = folderHistoryRef.current;
+    if (history.length === 0) return;
 
-    const previousFolder = folderHistory[folderHistory.length - 1];
-    setFolderHistory(prev => prev.slice(0, -1));
+    const previousFolder = history[history.length - 1];
+    folderHistoryRef.current = history.slice(0, -1);
+    currentFolderRef.current = previousFolder;
     setCurrentFolder(previousFolder);
     setLoading(true);
     setError(null);
@@ -81,13 +71,20 @@ export function useCloudinary(): UseCloudinaryReturn {
       setFolders(response.folders ?? []);
       setImages(response.images ?? []);
     } catch (err) {
-      if (err instanceof DOMException && err.name === 'AbortError') return;
       const message = err instanceof Error ? err.message : 'Erreur Cloudinary';
       setError(message);
     } finally {
       setLoading(false);
     }
-  }, [folderHistory, fetchFolder]);
+  }, [fetchFolder]);
+
+  // Cleanup
+  useEffect(() => {
+    return () => {
+      folderHistoryRef.current = [];
+      currentFolderRef.current = '';
+    };
+  }, []);
 
   return {
     folders,
