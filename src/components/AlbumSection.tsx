@@ -46,29 +46,28 @@ const AlbumCard: React.FC<{
         transition: { duration: 0.4, ease: 'easeOut' },
       }}
       whileTap={{ scale: 0.97 }}
-      className={`relative cursor-pointer overflow-hidden shadow-[15px_15px_40px_rgba(0,0,0,0.08)] ${variant.aspect}`}
+      className="cursor-pointer flex flex-col items-center"
     >
       {item.url ? (
-        <img
+        <motion.img
           src={item.url}
           alt={item.label}
-          className="absolute inset-0 w-full h-full object-contain grayscale-[0.3] hover:grayscale-0 transition-all duration-700"
+          className="w-full h-auto object-contain"
+          style={{ filter: 'drop-shadow(4px 6px 12px rgba(0,0,0,0.15))' }}
         />
       ) : (
-        <div className="absolute inset-0 bg-zinc-100 flex items-center justify-center">
+        <div className="w-full aspect-[4/3] bg-zinc-100 flex items-center justify-center rounded-sm">
           <span className="text-[9px] uppercase tracking-[0.3em] text-zinc-300">Pas d'image</span>
         </div>
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-70 pointer-events-none" />
-
-      <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 text-white">
+      <div className="mt-2 sm:mt-3 text-center">
         {item.subtitle && (
-          <p className="text-[6px] sm:text-[7px] mb-0.5 uppercase tracking-[0.3em] opacity-70 font-medium">
+          <p className="text-[7px] sm:text-[8px] uppercase tracking-[0.3em] text-zinc-400 mb-1">
             {item.subtitle}
           </p>
         )}
-        <h3 className="text-sm sm:text-base md:text-lg serif italic leading-none">
+        <h3 className="handwritten text-lg sm:text-xl md:text-2xl text-black/80">
           {item.label}
         </h3>
       </div>
