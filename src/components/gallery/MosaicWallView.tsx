@@ -1,53 +1,31 @@
 /**
  * MosaicWallView — Vue mosaique "mur d'exposition" pour les photos
- * REUTILISE PhotoFrame.tsx existant pour chaque photo
+ * Affiche les images brutes (mockups PNG avec cadre intégré)
+ * Pas de cadre ni mount ajouté — juste un drop-shadow léger
  * Layout CSS columns (2 cols mobile, 3 tablette, 4 desktop)
- * Rotations aleatoires, mounts distribues cycliquement
- * Espacement irregulier, fond wall-texture
- * Scroll vertical avec smooth scroll (EASE_FACTOR 0.05)
+ * Rotations légères, espacement irrégulier, fond wall-texture
  */
 
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import PhotoFrame from '../../../components/PhotoFrame';
 import type { Item } from '../../types';
-import type { Photo, PhotoMount } from '../../../types';
 
 interface MosaicWallViewProps {
   photos: Item[];
   onPhotoClick: (index: number) => void;
 }
 
-/** Genere une rotation aleatoire deterministe basee sur l'index */
+/** Rotation légère deterministe */
 const getRotation = (index: number): number => {
-  const rotations = [-3.2, 2.1, -1.5, 3.8, -0.8, 2.9, -4.0, 1.2, -2.5, 3.5];
+  const rotations = [-2, 1.5, -1, 2.5, -0.5, 1.8, -2.5, 0.8, -1.5, 2];
   return rotations[index % rotations.length];
 };
 
-/** Distribue les types de mounts cycliquement */
-const getMount = (index: number): PhotoMount => {
-  const mounts: PhotoMount[] = ['tape', 'corners', 'pin', 'none'];
-  return mounts[index % mounts.length];
-};
-
-/** Genere un margin irregulier deterministe */
+/** Margin irrégulier deterministe */
 const getMargin = (index: number): number => {
-  const margins = [8, 16, 12, 24, 10, 20, 14, 18, 22, 8];
+  const margins = [12, 20, 16, 24, 14, 22, 18, 10, 20, 16];
   return margins[index % margins.length];
 };
-
-/** Convertit un Item CMS en Photo pour PhotoFrame */
-const itemToPhoto = (item: Item, index: number): Photo => ({
-  id: item.id,
-  url: item.url ?? '',
-  title: item.label,
-  subtitle: item.subtitle ?? '',
-  width: 300,
-  height: 400,
-  rotation: getRotation(index),
-  shape: 'rectangle',
-  mount: getMount(index),
-});
 
 const MosaicWallView: React.FC<MosaicWallViewProps> = ({
   photos,
@@ -55,13 +33,6 @@ const MosaicWallView: React.FC<MosaicWallViewProps> = ({
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Convertir les items en photos pour PhotoFrame
-  const photoFrameData = useMemo(
-    () => photos.map((photo, idx) => itemToPhoto(photo, idx)),
-    [photos]
-  );
-
-  // Bloquer le scroll du body
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -69,7 +40,7 @@ const MosaicWallView: React.FC<MosaicWallViewProps> = ({
     };
   }, []);
 
-  // Scroll vertical doux (meme pattern que MosaicGalleryView existant)
+  // Scroll vertical doux
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
@@ -121,10 +92,9 @@ const MosaicWallView: React.FC<MosaicWallViewProps> = ({
       className="w-full h-full overflow-y-auto bg-[#faf8f5] wall-texture"
       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
     >
-      {/* Container en colonnes CSS pour masonry naturel */}
       <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-8 sm:py-12 md:py-16 pb-24">
         <div className="columns-2 md:columns-3 lg:columns-4 gap-4">
-          {photoFrameData.map((photo, index) => (
+          {photos.map((photo, index) => (
             <motion.div
               key={photo.id}
               initial={{ opacity: 0, y: 20 }}
@@ -137,10 +107,25 @@ const MosaicWallView: React.FC<MosaicWallViewProps> = ({
               className="break-inside-avoid cursor-pointer"
               style={{
                 marginBottom: `${getMargin(index)}px`,
+                rotate: `${getRotation(index)}deg`,
               }}
               onClick={() => onPhotoClick(index)}
             >
-              <PhotoFrame photo={photo} index={index} />
+              <motion.img
+                src={photo.url ?? ''}
+                alt={photo.label}
+                className="w-full h-auto object-contain"
+                style={{
+                  filter: 'drop-shadow(4px 6px 12px rgba(0,0,0,0.15))',
+                }}
+                whileHover={{
+                  scale: 1.03,
+                  transition: { duration: 0.3 },
+                }}
+              />
+              <p className="handwritten text-center text-lg sm:text-xl text-black/70 mt-2">
+                {photo.label}
+              </p>
             </motion.div>
           ))}
         </div>
