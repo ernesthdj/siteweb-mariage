@@ -412,29 +412,12 @@ const PhotoSection: React.FC = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-screen h-screen bg-[#faf8f5] wall-texture"
+      className="w-screen h-screen bg-[#faf8f5] wall-texture overflow-hidden"
     >
       <Breadcrumb segments={breadcrumbSegments} />
 
-
-      {/* Toggle vue + Bouton ajouter (admin) */}
-      <div className="fixed top-[72px] md:top-[88px] right-4 md:right-8 z-[191] flex items-center gap-3">
-        <ViewToggle mode={viewMode} onChange={setViewMode} />
-        {isAdmin && isEditing && (
-          <button
-            onClick={handleAdd}
-            className="w-8 h-8 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-full border border-black/[0.03] text-zinc-400 hover:text-[#8b7355] transition-colors"
-            aria-label="Ajouter une photo"
-            title="Ajouter une photo"
-          >
-            <span className="text-lg leading-none">&#43;</span>
-          </button>
-        )}
-      </div>
-
-
       {/* Contenu principal */}
-      <div className="relative z-20 h-full pt-28 md:pt-36">
+      <div className="relative h-full">
         {viewMode === 'mosaic' ? (
           <MosaicWallView photos={items} onPhotoClick={handlePhotoClick} />
         ) : (
@@ -462,6 +445,21 @@ const PhotoSection: React.FC = () => {
               />
             )}
           </div>
+        )}
+      </div>
+
+      {/* Toggle vue (flottant en bas à droite) */}
+      <div className="fixed bottom-20 right-4 md:right-8 z-[191] flex items-center gap-2">
+        <ViewToggle mode={viewMode} onChange={setViewMode} />
+        {isAdmin && isEditing && (
+          <button
+            onClick={handleAdd}
+            className="w-8 h-8 flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-full border border-black/[0.03] text-zinc-400 hover:text-[#8b7355] transition-colors"
+            aria-label="Ajouter une photo"
+            title="Ajouter une photo"
+          >
+            <span className="text-lg leading-none">&#43;</span>
+          </button>
         )}
       </div>
 
