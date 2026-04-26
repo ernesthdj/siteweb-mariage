@@ -242,7 +242,7 @@ const PortfolioSection: React.FC = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed inset-0 z-[140] bg-[#faf8f5] wall-texture overflow-hidden"
+      className="w-screen h-screen bg-[#faf8f5] wall-texture overflow-hidden"
     >
       <Breadcrumb segments={breadcrumbSegments} />
 
