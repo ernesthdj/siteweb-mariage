@@ -383,45 +383,45 @@ const PhotoSection: React.FC = () => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="w-screen h-screen bg-[#faf8f5] wall-texture overflow-hidden"
-    >
+    <>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-screen h-screen bg-[#faf8f5] wall-texture overflow-hidden"
+      >
+        {/* Contenu principal */}
+        <div className="relative h-full">
+          {viewMode === 'mosaic' ? (
+            <MosaicWallView photos={items} onPhotoClick={handlePhotoClick} />
+          ) : (
+            items.length > 0 && (
+              <div className="h-full flex items-center justify-center">
+                <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-400">
+                  Cliquez sur une photo en mosaique pour ouvrir le carousel
+                </p>
+              </div>
+            )
+          )}
 
-      {/* Contenu principal */}
-      <div className="relative h-full">
-        {viewMode === 'mosaic' ? (
-          <MosaicWallView photos={items} onPhotoClick={handlePhotoClick} />
-        ) : (
-          /* Mode carousel directement */
-          items.length > 0 && (
-            <div className="h-full flex items-center justify-center">
-              <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-400">
-                Cliquez sur une photo en mosaique pour ouvrir le carousel
+          {/* Etat vide */}
+          {items.length === 0 && (
+            <div className="h-full flex flex-col items-center justify-center gap-4">
+              <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-300">
+                Aucune photo dans cet album
               </p>
+              {isAdmin && isEditing && (
+                <AddItemButton
+                  onClick={handleAdd}
+                  variant="photo"
+                  label="Ajouter une photo"
+                />
+              )}
             </div>
-          )
-        )}
-
-        {/* Etat vide */}
-        {items.length === 0 && (
-          <div className="h-full flex flex-col items-center justify-center gap-4">
-            <p className="text-[9px] uppercase tracking-[0.4em] text-zinc-300">
-              Aucune photo dans cet album
-            </p>
-            {isAdmin && isEditing && (
-              <AddItemButton
-                onClick={handleAdd}
-                variant="photo"
-                label="Ajouter une photo"
-              />
-            )}
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </motion.div>
 
       {/* Toggle vue (flottant en bas à droite) */}
       <div className="fixed bottom-20 right-4 md:right-8 z-[191] flex items-center gap-2">
@@ -438,7 +438,7 @@ const PhotoSection: React.FC = () => {
         )}
       </div>
 
-      {/* Carousel overlay */}
+      {/* Carousel overlay — en dehors du overflow-hidden */}
       <AnimatePresence>
         {showCarousel && items.length > 0 && (
           <CarouselView
@@ -468,7 +468,7 @@ const PhotoSection: React.FC = () => {
           />
         )}
       </AnimatePresence>
-    </motion.div>
+    </>
   );
 };
 
