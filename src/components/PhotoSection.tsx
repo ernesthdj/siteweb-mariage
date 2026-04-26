@@ -111,7 +111,7 @@ const CarouselView: React.FC<{
       <motion.div
         className="absolute inset-0 wall-texture"
         initial={{ backgroundColor: '#faf8f5' }}
-        animate={{ backgroundColor: isDimmed ? '#e8e0d4' : '#faf8f5' }}
+        animate={{ backgroundColor: isDimmed ? '#eeece8' : '#faf8f5' }}
         transition={{ duration: 1.8, ease: [0.25, 0.1, 0.25, 1] }}
       />
 
@@ -119,7 +119,7 @@ const CarouselView: React.FC<{
       <motion.div
         className="absolute top-0 left-0 w-full h-16 md:h-20 flex items-center justify-between px-4 md:px-12 z-[160] backdrop-blur-sm"
         initial={{ backgroundColor: 'rgba(250, 248, 245, 0.8)' }}
-        animate={{ backgroundColor: isDimmed ? 'rgba(232, 224, 212, 0.85)' : 'rgba(250, 248, 245, 0.8)' }}
+        animate={{ backgroundColor: isDimmed ? 'rgba(238, 236, 232, 0.85)' : 'rgba(250, 248, 245, 0.8)' }}
         transition={{ duration: 1.8, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <button
@@ -416,16 +416,6 @@ const PhotoSection: React.FC = () => {
     >
       <Breadcrumb segments={breadcrumbSegments} />
 
-      {/* Bouton retour */}
-      <div className="fixed top-[72px] md:top-[88px] left-4 md:left-8 z-[191]">
-        <button
-          onClick={() => navigate(`${basePath}/${collectionId}`)}
-          className="group flex items-center gap-2 md:gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-zinc-400 hover:text-black transition-colors"
-        >
-          <div className="w-6 md:w-8 h-[1px] bg-zinc-300 group-hover:w-10 group-hover:bg-black transition-all" />
-          <span>Retour</span>
-        </button>
-      </div>
 
       {/* Toggle vue + Bouton ajouter (admin) */}
       <div className="fixed top-[72px] md:top-[88px] right-4 md:right-8 z-[191] flex items-center gap-3">
