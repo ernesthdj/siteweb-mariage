@@ -47,10 +47,10 @@ const CollectionCard: React.FC<{
     showcase: '',
   };
 
-  const frameClass = frameStyles[item.variant] ?? 'shadow-[20px_20px_60px_rgba(0,0,0,0.1)] border-[10px] border-white';
+  const frameClass = frameStyles[item.variant] ?? '';
 
-  // Rendu special pour le variant "showcase"
-  if (item.variant === 'showcase') {
+  // Rendu pour showcase et standard (PNG transparent, pas de cadre)
+  if (item.variant === 'showcase' || item.variant === 'standard') {
     return (
       <motion.div
         onClick={onClick}
