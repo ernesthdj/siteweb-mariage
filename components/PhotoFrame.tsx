@@ -8,7 +8,7 @@ interface PhotoFrameProps {
   index: number;
 }
 
-const PhotoFrame: React.FC<PhotoFrameProps> = ({ photo, index }) => {
+const PhotoFrame: React.FC<PhotoFrameProps> = ({ photo, index: _index }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { rotation = 0, shape = 'rectangle', mount = 'none' } = photo;
   const [dimensions, setDimensions] = useState({ width: photo.width, height: photo.height });

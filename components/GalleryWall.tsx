@@ -7,7 +7,7 @@ import ThemeCanvas from './ThemeCanvas';
 import GalleryView from './GalleryView';
 import MosaicGalleryView from './MosaicGalleryView';
 import MockGalleryView from './MockGalleryView';
-import { LoveNote, InkBlot } from './ArtisticAccents';
+import { LoveNote } from './ArtisticAccents';
 import PhotoFrame from './PhotoFrame';
 
 interface GalleryWallProps {
@@ -28,7 +28,8 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
     container: horizontalScrollRef
   });
 
-  const scrollWidth = useSpring(scrollXProgress, { stiffness: 60, damping: 25 });
+  // scrollWidth disponible pour animation future
+  useSpring(scrollXProgress, { stiffness: 60, damping: 25 });
 
   // Fermer toutes les galeries quand on navigue vers une autre section
   useEffect(() => {

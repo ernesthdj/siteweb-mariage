@@ -5,82 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ERNEST H. PHOTOGRAPHY | Photographie de Mariage</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&family=Mrs+Saint+Delafield&display=swap"
     rel="stylesheet">
-  <style>
-    :root {
-      --bg-color: #fcfcfc;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: var(--bg-color);
-      font-family: 'Montserrat', sans-serif;
-      color: #1a1a1a;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    h1,
-    h2,
-    h3,
-    .serif {
-      font-family: 'Cormorant Garamond', serif;
-    }
-
-    .handwritten {
-      font-family: 'Mrs Saint Delafield', cursive;
-    }
-
-    .grain-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.04;
-    }
-
-    .wall-texture {
-      background-image: url('https://www.transparenttextures.com/patterns/paper.png');
-    }
-
-    .perspective-1000 {
-      perspective: 1000px;
-    }
-
-    ::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
-    }
-
-    .vertical-text {
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-    }
-
-    ::selection {
-      background: rgba(0, 0, 0, 0.05);
-      color: #000;
-    }
-  </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "framer-motion": "https://esm.sh/framer-motion@^12.29.2"
-  }
-}
-</script>
 </head>
 
 <body>
@@ -92,7 +21,7 @@
   </svg>
   <div class="grain-overlay" style="filter: url(#grain);"></div>
   <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>

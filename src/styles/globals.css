@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================================
+   Atypique — Global Styles (migrated from index.html)
+   ============================================================================= */
+
+:root {
+  --bg-color: #fcfcfc;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  font-family: 'Montserrat', sans-serif;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typographic classes */
+h1,
+h2,
+h3,
+.serif {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.handwritten {
+  font-family: 'Mrs Saint Delafield', cursive;
+}
+
+/* Grain overlay for film texture effect */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+}
+
+/* Paper texture background */
+.wall-texture {
+  background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+}
+
+/* 3D perspective container */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Hide scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Vertical text for sidebar label */
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Subtle text selection */
+::selection {
+  background: rgba(0, 0, 0, 0.05);
+  color: #000;
+}

@@ -32,5 +32,9 @@ public/photos/
 .claude/
 
 # Environnement local
-.env.local
 .env
+.env.local
+.env.production.local
+
+# Vercel
+.vercel/

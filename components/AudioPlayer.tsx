@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState, useCallback, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AUDIO_TRACKS, AudioTrack } from '../constants';
 
