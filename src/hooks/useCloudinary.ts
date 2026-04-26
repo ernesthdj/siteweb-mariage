@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import type { CloudinaryFolder, CloudinaryImage } from '../types';
+import type { CloudinaryFolder, CloudinaryImage, CloudinaryBrowseResponse } from '../types';
 
 interface UseCloudinaryReturn {
   folders: CloudinaryFolder[];
@@ -21,41 +20,28 @@ export function useCloudinary(): UseCloudinaryReturn {
   const [folderHistory, setFolderHistory] = useState<string[]>([]);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Cleanup de la requete en cours au demontage
   useEffect(() => {
     return () => {
       abortControllerRef.current?.abort();
     };
   }, []);
 
-  /** Fetch interne reutilise par browseFolders et goBack */
-  const fetchFolder = useCallback(async (folder: string): Promise<{ folders: CloudinaryFolder[]; images: CloudinaryImage[] }> => {
-    // Annuler la requete precedente si encore en cours
+  const fetchFolder = useCallback(async (folder: string): Promise<CloudinaryBrowseResponse> => {
     abortControllerRef.current?.abort();
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) throw new Error('Authentification requise pour parcourir Cloudinary');
+    const params = folder ? `?folder=${encodeURIComponent(folder)}` : '';
+    const res = await fetch(`/api/cloudinary-browse${params}`, {
+      signal: controller.signal,
+    });
 
-    const { data, error: fnError } = await supabase.functions.invoke(
-      'cloudinary-browse',
-      {
-        body: { folder },
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      }
-    );
-
-    // Verifier si la requete a ete annulee
-    if (controller.signal.aborted) {
-      throw new Error('Requete annulee');
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.error || 'Erreur Cloudinary');
     }
 
-    if (fnError) throw fnError;
-
-    return data as { folders: CloudinaryFolder[]; images: CloudinaryImage[] };
+    return res.json() as Promise<CloudinaryBrowseResponse>;
   }, []);
 
   const browseFolders = useCallback(async (folder?: string) => {
@@ -68,16 +54,12 @@ export function useCloudinary(): UseCloudinaryReturn {
       setFolders(response.folders ?? []);
       setImages(response.images ?? []);
 
-      // Ne pas empiler un string vide dans l'historique (premier appel racine)
-      if (folder !== undefined && currentFolder !== '') {
-        setFolderHistory(prev => [...prev, currentFolder]);
-      } else if (folder !== undefined && currentFolder === '' && targetFolder !== '') {
-        // Naviguer depuis la racine vers un sous-dossier : empiler la racine
+      if (folder !== undefined && (currentFolder !== '' || targetFolder !== '')) {
         setFolderHistory(prev => [...prev, currentFolder]);
       }
       setCurrentFolder(targetFolder);
     } catch (err) {
-      if (err instanceof Error && err.message === 'Requete annulee') return;
+      if (err instanceof DOMException && err.name === 'AbortError') return;
       const message = err instanceof Error ? err.message : 'Erreur Cloudinary';
       setError(message);
     } finally {
@@ -99,7 +81,7 @@ export function useCloudinary(): UseCloudinaryReturn {
       setFolders(response.folders ?? []);
       setImages(response.images ?? []);
     } catch (err) {
-      if (err instanceof Error && err.message === 'Requete annulee') return;
+      if (err instanceof DOMException && err.name === 'AbortError') return;
       const message = err instanceof Error ? err.message : 'Erreur Cloudinary';
       setError(message);
     } finally {
