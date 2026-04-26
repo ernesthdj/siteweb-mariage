@@ -260,17 +260,6 @@ const CarouselView: React.FC<{
         }}
       />
 
-      {/* Ombre portee */}
-      <div
-        className="fixed inset-0 z-[120] pointer-events-none"
-        style={{
-          backgroundImage:
-            'url(https://res.cloudinary.com/dzoshz4ut/image/upload/v1769988211/Ombre_2_dtue5d.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
     </motion.div>
   );
 };
@@ -453,17 +442,6 @@ const PhotoSection: React.FC = () => {
         )}
       </div>
 
-      {/* Ombre portee */}
-      <div
-        className="fixed inset-0 z-[10] pointer-events-none"
-        style={{
-          backgroundImage:
-            'url(https://res.cloudinary.com/dzoshz4ut/image/upload/v1769988211/Ombre_2_dtue5d.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
 
       {/* Contenu principal */}
       <div className="relative z-20 h-full pt-28 md:pt-36">

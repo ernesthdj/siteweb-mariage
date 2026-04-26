@@ -232,17 +232,6 @@ const AlbumSection: React.FC = () => {
         </button>
       </div>
 
-      {/* Couche d'ombre portee */}
-      <div
-        className="fixed inset-0 z-[10] pointer-events-none"
-        style={{
-          backgroundImage:
-            'url(https://res.cloudinary.com/dzoshz4ut/image/upload/v1769988211/Ombre_2_dtue5d.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
 
       {/* Header */}
       <div className="pt-32 md:pt-40 px-4 sm:px-6 md:px-[10vw] mb-8 md:mb-12 relative z-20">
