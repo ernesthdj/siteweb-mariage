@@ -257,17 +257,6 @@ const PortfolioSection: React.FC = () => {
         </button>
       </div>
 
-      {/* Couche d'ombre portee */}
-      <div
-        className="absolute inset-0 z-[10] pointer-events-none"
-        style={{
-          backgroundImage:
-            'url(https://res.cloudinary.com/dzoshz4ut/image/upload/v1769988211/Ombre_2_dtue5d.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
 
       {/* Contenu scrollable horizontalement */}
       <div
