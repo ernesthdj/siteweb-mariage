@@ -46,13 +46,13 @@ const AlbumCard: React.FC<{
         transition: { duration: 0.4, ease: 'easeOut' },
       }}
       whileTap={{ scale: 0.97 }}
-      className={`relative cursor-pointer overflow-hidden bg-white shadow-[15px_15px_40px_rgba(0,0,0,0.08)] border-[8px] border-white ${variant.aspect}`}
+      className={`relative cursor-pointer overflow-hidden shadow-[15px_15px_40px_rgba(0,0,0,0.08)] ${variant.aspect}`}
     >
       {item.url ? (
         <img
           src={item.url}
           alt={item.label}
-          className="absolute inset-0 w-full h-full object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-700"
+          className="absolute inset-0 w-full h-full object-contain grayscale-[0.3] hover:grayscale-0 transition-all duration-700"
         />
       ) : (
         <div className="absolute inset-0 bg-zinc-100 flex items-center justify-center">

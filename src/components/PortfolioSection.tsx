@@ -100,7 +100,6 @@ const CollectionCard: React.FC<{
       whileTap={{ scale: variant.scale * 0.95 }}
       className={`relative cursor-pointer flex-shrink-0
         w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px]
-        bg-white
         mx-3 sm:mx-6 md:mx-12 lg:mx-20
         overflow-hidden ${variant.aspect} ${frameClass}`}
     >
@@ -108,7 +107,7 @@ const CollectionCard: React.FC<{
         <img
           src={item.url}
           alt={item.label}
-          className="absolute inset-0 w-full h-full object-cover grayscale-[0.4] hover:grayscale-0 transition-all duration-1000"
+          className="absolute inset-0 w-full h-full object-contain grayscale-[0.4] hover:grayscale-0 transition-all duration-1000"
         />
       )}
 
