@@ -26,10 +26,15 @@ const CloudinaryBrowser: React.FC<CloudinaryBrowserProps> = ({
 
   const [selectedUrl, setSelectedUrl] = useState<string | null>(null);
 
-  // Charger le dossier racine a l'ouverture
+  // Charger le dossier racine a l'ouverture (une seule fois)
+  const hasLoadedRef = React.useRef(false);
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !hasLoadedRef.current) {
+      hasLoadedRef.current = true;
       void browseFolders('');
+    }
+    if (!isOpen) {
+      hasLoadedRef.current = false;
     }
   }, [isOpen, browseFolders]);
 
