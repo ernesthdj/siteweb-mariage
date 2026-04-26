@@ -28,7 +28,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ segments }) => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -10 }}
         transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-        className="fixed top-[72px] md:top-[88px] left-1/2 -translate-x-1/2 z-[190] flex items-center gap-1.5 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-black/[0.03]"
+        className="fixed top-[100px] md:top-[120px] left-1/2 -translate-x-1/2 z-[190] flex items-center gap-1.5 bg-white/60 backdrop-blur-sm px-4 py-2 rounded-full border border-black/[0.03]"
         aria-label="Fil d'Ariane"
       >
         {segments.map((segment, index) => {
