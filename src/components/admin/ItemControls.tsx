@@ -90,7 +90,7 @@ const ItemControls: React.FC<ItemControlsProps> = ({
 
   return (
     <div
-      className={`relative group ${isDraft ? 'opacity-50' : ''}`}
+      className={`relative group flex-shrink-0 ${isDraft ? 'opacity-50' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       // Mobile : tap toggle
