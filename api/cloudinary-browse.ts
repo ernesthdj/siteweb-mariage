@@ -55,7 +55,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          expression: `folder="${folder}"`,
+          expression: `asset_folder="${folder}"`,
           max_results: 100,
           sort_by: [{ field: 'created_at', direction: 'desc' }],
         }),
