@@ -1,5 +1,5 @@
 # SAVE — Atypique · Fine Art Wedding Photography
-> Dernière mise à jour : 2026-04-02
+> Derniere mise a jour : 2026-04-26
 
 ---
 
@@ -7,27 +7,35 @@
 
 Site vitrine immersif pour un studio de photographie de mariage haut de gamme.
 Nom de marque : **Atypique**
-Contact affiché : `hello@atypique-studio.com`
-Esthétique : galerie fine art — textures papier, cadres dessinés à la main, typographies élégantes, navigation spatiale.
+Contact affiche : `hello@atypique-studio.com`
+Esthetique : galerie fine art — textures papier, typographies elegantes, navigation spatiale.
+**Mini CMS integre** pour gerer le contenu sans toucher au code.
 
 ---
 
-## État du projet
+## Etat du projet
 
-| Axe | État |
+| Axe | Etat |
 |-----|------|
-| UI / Layout général | ✅ Terminé et responsive |
-| Navigation 3 sections | ✅ Opérationnel |
-| Animations (Framer Motion) | ✅ Soignées |
+| UI / Layout general | ✅ Termine et responsive |
+| Navigation 3 sections | ✅ Operationnel (React Router) |
+| Animations (Framer Motion) | ✅ Soignees |
 | Lecteur audio ambiant | ✅ Fonctionnel (3 pistes Cloudinary) |
-| Thème mariage (photos réelles) | ✅ 3 photos réelles |
-| Galerie mock (23 photos) | ✅ Cloudinary, carousel + typewriter |
-| 8 autres thèmes | ⚠️ Vides (photos[] = []) |
+| Mini CMS Admin | ✅ Fonctionnel (CRUD complet, /admin) |
+| Auth admin | ✅ Supabase Auth (email/mdp) |
+| Base de donnees | ✅ Supabase PostgreSQL (table items, RLS) |
+| Explorateur Cloudinary | ✅ Navigation dossiers + miniatures |
+| Navigation hierarchique | ✅ Collections → Albums → Photos |
+| Vue Mosaique | ✅ CSS columns, PNG transparents, drop-shadow |
+| Vue Carousel | ✅ Plein ecran, typewriter, navigation clavier/molette |
+| Donnees migrees | ✅ 9 collections, 1 album, 26 photos en base |
+| Titres mock22-23 | ✅ Nettoyes lors de la migration |
+| Build de production | ✅ Vite, TypeScript strict |
+| Hebergement | ✅ Vercel (auto-deploy GitHub) |
 | Formulaire de contact | ⚠️ Structure HTML uniquement, pas de backend |
 | Bio photographe | ⚠️ Placeholder Unsplash |
-| Données mock sales | ❌ mock22-23 ont des titres inappropriés à nettoyer |
-| Build de production | ✅ `/dist` présent |
-| Hébergement / déploiement | ❓ Pas configuré |
+| SEO | ⚠️ Pas de meta tags, OG, sitemap |
+| Domaine personnalise | ❌ Pas configure |
 
 ---
 
@@ -35,10 +43,34 @@ Esthétique : galerie fine art — textures papier, cadres dessinés à la main,
 
 ```
 React 19 + TypeScript 5 + Vite 6
-Tailwind CSS (CDN)
+Tailwind CSS (npm, installe localement)
 Framer Motion 12
+React Router 7
+Supabase (PostgreSQL + Auth + RLS)
+Vercel (hebergement + Serverless Functions)
 Cloudinary (images + audio CDN)
 Fonts : Cormorant Garamond · Montserrat · Mrs Saint Delafield
+```
+
+---
+
+## Architecture
+
+```
+URL publiques :
+  /                     → Accueil + Contact (GalleryWall original)
+  /portfolio            → Collections depuis Supabase
+  /portfolio/:id        → Albums d'une collection
+  /portfolio/:id/:aid   → Photos d'un album (mosaique + carousel)
+
+URL admin :
+  /admin                → Login → Accueil + AdminToolbar
+  /admin/portfolio      → Collections + controles CRUD
+  /admin/portfolio/:id  → Albums + controles CRUD
+  /admin/portfolio/:id/:aid → Photos + controles CRUD
+
+API Serverless :
+  /api/cloudinary-browse → Proxy Cloudinary (dossiers + images)
 ```
 
 ---
@@ -47,124 +79,135 @@ Fonts : Cormorant Garamond · Montserrat · Mrs Saint Delafield
 
 ```
 SiteWeb_Mariage/
-├── App.tsx                  # Root — état global, layout principal
-├── constants.tsx            # Toutes les données (thèmes, photos, albums, pistes audio)
-├── types.ts                 # Types TypeScript
-├── index.html               # Entrée HTML
+├── api/
+│   └── cloudinary-browse.ts     # Vercel Serverless Function
+├── components/                  # Composants site original (racine)
+│   ├── Navigation.tsx
+│   ├── GalleryWall.tsx
+│   ├── AudioPlayer.tsx
+│   ├── PhotoFrame.tsx
+│   ├── ThemeCanvas.tsx
+│   ├── MockGalleryView.tsx
+│   ├── MosaicGalleryView.tsx
+│   └── ...
+├── src/
+│   ├── App.tsx                  # Routing React Router
+│   ├── main.tsx                 # Point d'entree
+│   ├── components/
+│   │   ├── admin/               # Composants CMS
+│   │   │   ├── AdminContext.tsx
+│   │   │   ├── AdminToolbar.tsx
+│   │   │   ├── LoginPage.tsx
+│   │   │   ├── ItemControls.tsx
+│   │   │   ├── ItemForm.tsx
+│   │   │   ├── CloudinaryBrowser.tsx
+│   │   │   └── AddItemButton.tsx
+│   │   ├── gallery/             # Composants galerie
+│   │   │   ├── ViewToggle.tsx
+│   │   │   └── MosaicWallView.tsx
+│   │   ├── PortfolioSection.tsx
+│   │   ├── AlbumSection.tsx
+│   │   └── PhotoSection.tsx
+│   ├── hooks/
+│   │   ├── useAuth.ts
+│   │   ├── useItems.ts
+│   │   └── useCloudinary.ts
+│   ├── lib/
+│   │   └── supabase.ts
+│   ├── types/
+│   │   └── index.ts
+│   └── styles/
+│       └── globals.css
+├── docs/
+│   ├── FONDATIONS.md
+│   ├── JOURNAL.md
+│   ├── QA-REPORT.md
+│   ├── DEPLOY.md
+│   ├── supabase-setup.sql
+│   └── supabase-migration.sql
+├── scripts/
+│   └── migrate.mjs
+├── vercel.json
+├── tailwind.config.ts
+├── postcss.config.js
+├── tsconfig.json
 ├── vite.config.ts
-├── package.json
-├── components/
-│   ├── Navigation.tsx       # Navbar fixed, 3 sections, underline animé
-│   ├── GalleryWall.tsx      # Conteneur principal — scroll horizontal, overlay views
-│   ├── AudioPlayer.tsx      # Player HTML5 avec fade in/out, UI expandable
-│   ├── GalleryView.tsx      # Grille de photos collées (rotation aléatoire)
-│   ├── MockGalleryView.tsx  # Carousel plein écran + typewriter
-│   ├── MosaicGalleryView.tsx# Grille d'albums défilante
-│   ├── ThemeCanvas.tsx      # Carte d'une collection (survol + effets)
-│   ├── PhotoFrame.tsx       # Photo encadrée (tape, coins, pin) + parallax
-│   ├── ArtisticAccents.tsx  # SVG décoratifs : InkBlot, BowTie, LoveNote…
-│   ├── AlbumView.tsx        # Album avec flip 3D à l'ouverture
-│   └── HandDrawnFrame.tsx   # Bordure SVG dessinée à la main animée
-├── Photos/
-│   ├── Mariages/            # Photos de mariage réelles
-│   ├── Mocks/               # Images maquette
-│   └── Cachet/              # Tampons / cachets
-└── Musiques/
-    ├── Moonlit Teacups.mp3
-    ├── Lanterns Over Old Stone Steps.mp3
-    └── Whispers Of Old Paper.mp3
+└── .env.example
 ```
 
 ---
 
-## Données configurées (constants.tsx)
+## Base de donnees (Supabase)
 
-### 9 Thèmes d'exposition
-| ID | Titre | Photos |
-|----|-------|--------|
-| `wedding` | Noces d'Éternité | 3 photos réelles |
-| `nature` | Brume Organique | ❌ vide |
-| `culinary` | Saveurs Obscures | ❌ vide |
-| `fashion` | Noir Couture | ❌ vide |
-| `urban` | Béton Brisé | ❌ vide |
-| `architecture` | Minimalisme Corbuséen | ❌ vide |
-| `birth` | Souffle Premier | ❌ vide |
-| `portrait` | Visages d'Âme | ❌ vide |
-| `showcase` | Un Mariage en Lumière | ✅ 23 photos mock (Cloudinary) |
+### Table `items` — Item universel auto-reference
 
-### Galerie mock (`MOCK_GALLERY_PHOTOS`)
-- 23 photos Cloudinary
-- Titres poétiques : "Le Premier Regard", "Tendresse", "Complicité", "Éternité"…
-- **⚠️ mock22-23 : titres placeholder inappropriés à corriger**
+| Champ | Type | Description |
+|-------|------|-------------|
+| id | UUID | Cle primaire |
+| type | TEXT | "collection", "album", "photo" |
+| label | TEXT | Titre affiche |
+| url | TEXT | URL image Cloudinary |
+| description | TEXT | Texte poetique (carousel) |
+| subtitle | TEXT | Sous-titre |
+| parent_id | UUID | FK → items.id (null = collection racine) |
+| position | INTEGER | Ordre d'affichage (drag & drop) |
+| visible | BOOLEAN | true = publie, false = brouillon |
+| variant | TEXT | Modele visuel ("standard", "showcase") |
+| metadata | JSONB | Champ libre extensible |
+| created_at | TIMESTAMPTZ | Auto |
+| updated_at | TIMESTAMPTZ | Auto (trigger) |
 
-### Albums (`GALLERY_ALBUMS`)
-- 1 album configuré : "Un Mariage en Lumière"
-- `ALBUM_DISPLAY_CONFIGS` : 1 seule config peuplée
+### RLS (Row Level Security)
+- Visiteurs (anon) : lecture des items `visible = true` uniquement
+- Admin (authenticated) : CRUD complet
 
-### Pistes audio
-- 3 pistes lo-fi / ambiance — hébergées sur Cloudinary
-- Déclenchées au premier clic sur "Portfolio"
-
----
-
-## Architecture front-end
-
-```
-App.tsx
-└── GalleryWall.tsx          # scroll horizontal
-    ├── Section Accueil      # hero + bio
-    ├── Section Portfolio    # 9 × ThemeCanvas
-    │   ├── GalleryView      # overlay grille
-    │   ├── MockGalleryView  # overlay carousel
-    │   └── MosaicGalleryView# overlay albums
-    └── Section Contact      # formulaire
-AudioPlayer.tsx              # positionné globalement
-Navigation.tsx               # navbar fixed
-```
+### Donnees actuelles
+- 9 collections (2 visibles : Showcase + Wedding, 7 brouillons)
+- 1 album
+- 26 photos (3 wedding + 23 mock)
 
 ---
 
-## Ce qui reste à faire (backlog identifié)
+## CMS Admin — Fonctionnalites
 
-### Priorité haute
-- [ ] Nettoyer les titres mock22-23 (contenu inapproprié)
-- [ ] Implémenter la soumission du formulaire de contact (Resend / EmailJS / API propre)
+- Login via `/admin` (email/mdp Supabase Auth)
+- Mode WYSIWYG : navigation identique au site + controles CRUD superposes
+- Creer / modifier / supprimer des items a chaque niveau
+- Toggle visible/brouillon (items brouillon en opacite reduite)
+- Explorateur Cloudinary integre (parcourir dossiers, miniatures, selection visuelle)
+- Confirmation avant suppression (bouton "Confirmer ?" pendant 3s)
+- Protection double-clic (state isSubmitting)
+
+---
+
+## Ce qui reste a faire (backlog)
+
+### Priorite haute
+- [ ] Implementer la soumission du formulaire de contact
 - [ ] Remplacer le placeholder bio photographe par une vraie photo
+- [ ] Drag & drop pour reordonner les items (prepare, pas encore branche)
 
-### Priorité moyenne
-- [ ] Peupler les 8 thèmes vides avec de vraies photos (ou retirer les thèmes vides)
-- [ ] Ajouter plusieurs configs dans `ALBUM_DISPLAY_CONFIGS`
+### Priorite moyenne
 - [ ] SEO : balises meta, OG, sitemap, robots.txt
 - [ ] Performances : lazy loading images, optimisation Cloudinary
+- [ ] Variantes visuelles selectionnables dans le CMS
 
-### Priorité basse / v2
-- [ ] Déploiement (Vercel / Netlify recommandé)
-- [ ] Domaine personnalisé `atypique-studio.com`
+### Priorite basse / v2
+- [ ] Domaine personnalise `atypique-studio.com`
 - [ ] Analytics (Plausible ou GA4)
 - [ ] Version multilingue (FR/EN)
-- [ ] CMS headless pour gestion de contenu sans code
+- [ ] Edge Function Supabase pour le proxy Cloudinary (alternative a Vercel)
 
 ---
 
-## Points forts du code
+## Liens
 
-- Architecture composants propre et modulaire
-- TypeScript strict bien respecté
-- Framer Motion utilisé de façon avancée (scroll hooks, layout animations, variants)
-- Responsive mobile-first cohérent
-- Design system organique (textures, SVG, typographies)
-- Build Vite optimisé, prêt pour prod
-
----
-
-## Notes & décisions techniques
-
-- Tailwind CSS chargé via CDN → ok pour MVP, à passer en install locale si le bundle grossit
-- Cloudinary utilisé pour tous les assets lourds → bonne décision pour les perfs
-- Pas de backend actuellement → site 100% statique (formulaire à connecter)
-- `GEMINI_API_KEY` dans `.env.local` → non utilisé dans le code actuel (feature future ?)
-- Pas de système de routing (React Router) → navigation gérée par état local
+- **Site en ligne** : https://siteweb-mariage.vercel.app
+- **Admin CMS** : https://siteweb-mariage.vercel.app/admin
+- **GitHub** : https://github.com/ernesthdj/siteweb-mariage
+- **Supabase** : https://peqxvylhqcbhxoqteiih.supabase.co
+- **Cloudinary** : cloud name `dzoshz4ut`
 
 ---
 
-*Document généré à partir de l'exploration complète du projet le 2026-04-02.*
+*Document mis a jour le 2026-04-26.*
