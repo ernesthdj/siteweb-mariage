@@ -218,7 +218,6 @@ const AlbumSection: React.FC = () => {
       className="w-screen h-screen bg-[#faf8f5] wall-texture overflow-y-auto"
       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
     >
-      <Breadcrumb segments={breadcrumbSegments} />
 
 
 

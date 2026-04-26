@@ -414,7 +414,6 @@ const PhotoSection: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="w-screen h-screen bg-[#faf8f5] wall-texture overflow-hidden"
     >
-      <Breadcrumb segments={breadcrumbSegments} />
 
       {/* Contenu principal */}
       <div className="relative h-full">
