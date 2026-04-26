@@ -46,7 +46,7 @@ const AlbumCard: React.FC<{
         transition: { duration: 0.4, ease: 'easeOut' },
       }}
       whileTap={{ scale: 0.97 }}
-      className="cursor-pointer flex flex-col items-center"
+      className="cursor-pointer flex flex-col items-center w-full"
     >
       {item.url ? (
         <motion.img
