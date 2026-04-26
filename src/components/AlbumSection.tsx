@@ -220,16 +220,6 @@ const AlbumSection: React.FC = () => {
     >
       <Breadcrumb segments={breadcrumbSegments} />
 
-      {/* Bouton retour */}
-      <div className="fixed top-[72px] md:top-[88px] left-4 md:left-8 z-[191]">
-        <button
-          onClick={() => navigate(basePath)}
-          className="group flex items-center gap-2 md:gap-4 text-[9px] md:text-[10px] uppercase tracking-[0.3em] md:tracking-[0.4em] text-zinc-400 hover:text-black transition-colors"
-        >
-          <div className="w-6 md:w-8 h-[1px] bg-zinc-300 group-hover:w-10 group-hover:bg-black transition-all" />
-          <span>Retour</span>
-        </button>
-      </div>
 
 
       {/* Header */}
