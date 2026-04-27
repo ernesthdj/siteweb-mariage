@@ -599,29 +599,67 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
             </motion.div>
 
             <div className="relative">
-              <div className="bg-white p-4 sm:p-6 md:p-12 shadow-[10px_10px_30px_rgba(0,0,0,0.05)] sm:shadow-[20px_20px_60px_rgba(0,0,0,0.05)] md:shadow-[40px_40px_100px_rgba(0,0,0,0.05)] border border-zinc-50 relative z-10">
-                <form className="space-y-4 sm:space-y-6" onSubmit={(e) => e.preventDefault()}>
+              {/* Glassmorphism card */}
+              <div
+                className="relative z-10 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.4) 100%)',
+                  backdropFilter: 'blur(20px) saturate(1.2)',
+                  WebkitBackdropFilter: 'blur(20px) saturate(1.2)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.45)',
+                }}
+              >
+                {/* Reflet lumineux subtil en haut à gauche */}
+                <div
+                  className="absolute top-0 left-0 w-full h-1/2 pointer-events-none rounded-t-2xl sm:rounded-t-3xl"
+                  style={{
+                    background: 'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%)',
+                  }}
+                />
+
+                <form className="relative space-y-5 sm:space-y-7" onSubmit={(e) => e.preventDefault()}>
                   <div>
-                    <label htmlFor="contact-name" className="sr-only">Votre Nom</label>
+                    <label htmlFor="contact-name" className="text-[8px] sm:text-[9px] uppercase tracking-[0.3em] text-zinc-400 mb-2 block">Votre Nom</label>
                     <input
                       id="contact-name"
                       type="text"
-                      placeholder="Votre Nom"
+                      placeholder="Marie & Thomas"
                       aria-label="Votre Nom"
-                      className="w-full border-b border-zinc-100 py-2 sm:py-3 outline-none focus:border-black transition-colors text-sm font-light bg-transparent"
+                      className="w-full border-b border-white/30 py-2 sm:py-3 outline-none focus:border-black/40 transition-colors text-sm font-light bg-transparent placeholder:text-zinc-300"
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-message" className="sr-only">Votre message</label>
-                    <textarea
-                      id="contact-message"
-                      placeholder="Votre message..."
-                      aria-label="Votre message"
-                      className="w-full border-b border-zinc-100 py-2 sm:py-3 outline-none focus:border-black transition-colors text-sm font-light h-20 sm:h-24 resize-none bg-transparent"
+                    <label htmlFor="contact-email" className="text-[8px] sm:text-[9px] uppercase tracking-[0.3em] text-zinc-400 mb-2 block">Email</label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      placeholder="hello@exemple.com"
+                      aria-label="Email"
+                      className="w-full border-b border-white/30 py-2 sm:py-3 outline-none focus:border-black/40 transition-colors text-sm font-light bg-transparent placeholder:text-zinc-300"
                     />
                   </div>
-                  <button type="submit" className="w-full bg-black text-white py-3 sm:py-4 text-[8px] sm:text-[9px] uppercase tracking-[0.4em] sm:tracking-[0.5em] mt-4 sm:mt-6">
-                    Envoyer
+                  <div>
+                    <label htmlFor="contact-message" className="text-[8px] sm:text-[9px] uppercase tracking-[0.3em] text-zinc-400 mb-2 block">Message</label>
+                    <textarea
+                      id="contact-message"
+                      placeholder="Parlez-nous de votre projet..."
+                      aria-label="Votre message"
+                      className="w-full border-b border-white/30 py-2 sm:py-3 outline-none focus:border-black/40 transition-colors text-sm font-light h-24 sm:h-28 resize-none bg-transparent placeholder:text-zinc-300"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="group relative w-full py-3 sm:py-4 mt-2 sm:mt-4 rounded-xl overflow-hidden transition-all duration-500"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(30,30,30,0.9) 100%)',
+                      boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                    }}
+                  >
+                    <span className="relative z-10 text-[8px] sm:text-[9px] uppercase tracking-[0.5em] font-medium text-white/90">
+                      Envoyer
+                    </span>
+                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                   </button>
                 </form>
               </div>

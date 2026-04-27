@@ -122,6 +122,16 @@
   background-color: rgba(237, 230, 219, 0.4);
 }
 
+/* Glassmorphism dark mode — contact form */
+[data-theme="dark"] .wall-texture .placeholder\:text-zinc-300::placeholder {
+  color: #6e6458;
+}
+
+[data-theme="dark"] .wall-texture input:focus,
+[data-theme="dark"] .wall-texture textarea:focus {
+  border-color: rgba(237, 230, 219, 0.3) !important;
+}
+
 body {
   margin: 0;
   padding: 0;
