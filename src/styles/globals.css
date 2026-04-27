@@ -8,6 +8,118 @@
 
 :root {
   --bg-color: #fcfcfc;
+  --wall-bg: #faf8f5;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1510;
+  --wall-bg: #231c14;
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e8e0d4;
+}
+
+/* ===== DARK MODE — Galerie nocturne ===== */
+
+/* Vignette — bords assombris comme un éclairage muséal */
+[data-theme="dark"] .wall-texture::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background: radial-gradient(
+    ellipse 80% 70% at 50% 50%,
+    transparent 20%,
+    rgba(10, 8, 5, 0.4) 70%,
+    rgba(5, 3, 2, 0.7) 100%
+  );
+  transition: opacity 0.6s ease;
+}
+
+/* Grain filmique plus visible la nuit */
+[data-theme="dark"] .grain-overlay {
+  opacity: 0.08;
+}
+
+/* Spot lumineux chaud derrière chaque cadre photo */
+[data-theme="dark"] .photo-spotlight {
+  filter: drop-shadow(0 0 60px rgba(255, 220, 160, 0.15))
+          drop-shadow(0 0 120px rgba(255, 200, 120, 0.08));
+}
+
+/* Halo warm sur les canvas de collection */
+[data-theme="dark"] .canvas-spotlight {
+  filter: drop-shadow(0 0 40px rgba(255, 215, 150, 0.12))
+          drop-shadow(0 0 80px rgba(255, 200, 120, 0.06));
+}
+
+/* Texte adapté au fond sombre */
+[data-theme="dark"] .wall-texture {
+  color: #d4ccc0;
+}
+
+[data-theme="dark"] .wall-texture h1,
+[data-theme="dark"] .wall-texture h2,
+[data-theme="dark"] .wall-texture h3 {
+  color: #ede6db;
+}
+
+[data-theme="dark"] .wall-texture .text-black {
+  color: #ede6db;
+}
+
+[data-theme="dark"] .wall-texture .text-black\/40 {
+  color: rgba(237, 230, 219, 0.4);
+}
+
+[data-theme="dark"] .wall-texture .text-black\/80 {
+  color: rgba(237, 230, 219, 0.7);
+}
+
+[data-theme="dark"] .wall-texture .text-zinc-400 {
+  color: #8a7e6e;
+}
+
+[data-theme="dark"] .wall-texture .text-zinc-500 {
+  color: #9a8e7e;
+}
+
+[data-theme="dark"] .wall-texture .text-zinc-600 {
+  color: #b0a494;
+}
+
+[data-theme="dark"] .wall-texture .text-zinc-700 {
+  color: #c8bcaa;
+}
+
+[data-theme="dark"] .wall-texture .text-zinc-300 {
+  color: #6e6458;
+}
+
+[data-theme="dark"] .wall-texture .border-zinc-100\/50,
+[data-theme="dark"] .wall-texture .border-zinc-200 {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .wall-texture .bg-black\/10,
+[data-theme="dark"] .wall-texture .bg-zinc-200 {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Navbar en dark */
+[data-theme="dark"] nav .text-zinc-400 {
+  color: #8a7e6e;
+}
+
+[data-theme="dark"] nav .text-black {
+  color: #ede6db;
+}
+
+[data-theme="dark"] nav .bg-black\/40 {
+  background-color: rgba(237, 230, 219, 0.4);
 }
 
 body {
@@ -15,6 +127,7 @@ body {
   padding: 0;
   overflow: hidden;
   background-color: var(--bg-color);
+  transition: background-color 0.6s ease;
   font-family: 'Montserrat', sans-serif;
   color: #1a1a1a;
   -webkit-font-smoothing: antialiased;
@@ -46,7 +159,9 @@ h3,
 
 /* Paper texture background */
 .wall-texture {
+  background-color: var(--wall-bg);
   background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+  transition: background-color 0.6s ease;
 }
 
 /* 3D perspective container */

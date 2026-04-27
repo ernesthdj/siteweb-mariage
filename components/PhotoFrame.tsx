@@ -65,7 +65,7 @@ const PhotoFrame: React.FC<PhotoFrameProps> = ({ photo, index: _index }) => {
         rotate: rotation,
         opacity: opacity,
       }}
-      className="inline-block relative perspective-1000 group max-w-full"
+      className="inline-block relative perspective-1000 group max-w-full photo-spotlight"
     >
       {/* Éléments de montage physiques */}
       {mount === 'tape' && (

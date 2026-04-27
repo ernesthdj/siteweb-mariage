@@ -48,7 +48,7 @@ const PublicSite: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
       />
 
       <div className="fixed top-12 left-12 z-50 pointer-events-none hidden lg:block">
-        <span className="text-[10px] uppercase tracking-[0.5em] text-black vertical-text">
+        <span className="text-[10px] uppercase tracking-[0.5em] vertical-text">
           Ernest H. Photography — L'imparfait sublime
         </span>
       </div>
@@ -63,7 +63,7 @@ const PublicSite: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
       <AudioPlayer ref={audioPlayerRef} />
 
       {/* Texture de grain globale */}
-      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-white mix-blend-multiply opacity-20" />
+      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-[var(--wall-bg)] mix-blend-multiply opacity-20 transition-[border-color] duration-[600ms]" />
     </div>
   );
 };
@@ -91,7 +91,7 @@ const PortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
       />
 
       <div className="fixed top-12 left-12 z-50 pointer-events-none hidden lg:block">
-        <span className="text-[10px] uppercase tracking-[0.5em] text-black vertical-text">
+        <span className="text-[10px] uppercase tracking-[0.5em] vertical-text">
           Ernest H. Photography — L'imparfait sublime
         </span>
       </div>
@@ -101,7 +101,7 @@ const PortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
       <AudioPlayer ref={audioPlayerRef} />
 
       {/* Texture de grain globale */}
-      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-white mix-blend-multiply opacity-20" />
+      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-[var(--wall-bg)] mix-blend-multiply opacity-20 transition-[border-color] duration-[600ms]" />
     </div>
   );
 };
@@ -124,7 +124,7 @@ const AdminPortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ childre
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center">
+      <div className="min-h-screen wall-texture flex items-center justify-center">
         <span className="text-[9px] uppercase tracking-[0.4em] text-zinc-400">
           Chargement...
         </span>
@@ -144,7 +144,7 @@ const AdminPortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ childre
       />
 
       <div className="fixed top-12 left-12 z-50 pointer-events-none hidden lg:block">
-        <span className="text-[10px] uppercase tracking-[0.5em] text-black vertical-text">
+        <span className="text-[10px] uppercase tracking-[0.5em] vertical-text">
           Ernest H. Photography — L'imparfait sublime
         </span>
       </div>
@@ -154,7 +154,7 @@ const AdminPortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ childre
       <AudioPlayer ref={audioPlayerRef} />
 
       {/* Texture de grain globale */}
-      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-white mix-blend-multiply opacity-20" />
+      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-[var(--wall-bg)] mix-blend-multiply opacity-20 transition-[border-color] duration-[600ms]" />
 
       <AdminToolbar />
     </div>
@@ -167,7 +167,7 @@ const AdminRoute: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center">
+      <div className="min-h-screen wall-texture flex items-center justify-center">
         <span className="text-[9px] uppercase tracking-[0.4em] text-zinc-400">
           Chargement...
         </span>

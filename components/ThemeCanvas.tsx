@@ -55,7 +55,7 @@ const ThemeCanvas: React.FC<ThemeCanvasProps> = ({ theme, onClick, index }) => {
           transition: { duration: 0.5, ease: "easeOut" }
         }}
         whileTap={{ scale: 0.98 }}
-        className="relative cursor-pointer flex-shrink-0 mx-4 sm:mx-8 md:mx-12 lg:mx-20 flex flex-col items-center"
+        className="relative cursor-pointer flex-shrink-0 mx-4 sm:mx-8 md:mx-12 lg:mx-20 flex flex-col items-center canvas-spotlight"
       >
         {/* Photo PNG responsive */}
         <motion.img
@@ -100,7 +100,7 @@ const ThemeCanvas: React.FC<ThemeCanvasProps> = ({ theme, onClick, index }) => {
         w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px]
         bg-white
         mx-3 sm:mx-6 md:mx-12 lg:mx-20
-        overflow-hidden ${variant.aspect} ${styles[theme.type]}`}
+        overflow-hidden canvas-spotlight ${variant.aspect} ${styles[theme.type]}`}
     >
       <motion.img
         layoutId={`img-${theme.id}`}

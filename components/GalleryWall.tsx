@@ -116,7 +116,7 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
   }, [activeSection]);
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-white wall-texture">
+    <div className="relative w-screen h-screen overflow-hidden wall-texture">
       <motion.div
         ref={horizontalScrollRef}
         className="flex h-full w-full overflow-x-auto overflow-y-hidden items-center select-none"
@@ -126,7 +126,7 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
         {/* MUR 1: ACCUEIL + À PROPOS */}
         <section
           ref={homeRef}
-          className="flex-shrink-0 w-screen h-full overflow-y-auto overflow-x-hidden relative scroll-smooth bg-[#faf8f5] wall-texture"
+          className="flex-shrink-0 w-screen h-full overflow-y-auto overflow-x-hidden relative scroll-smooth wall-texture"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {/* Hero */}
@@ -322,7 +322,7 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
         </section>
 
         {/* MUR 2: PORTFOLIO (Irrégulier & Confondu) */}
-        <div ref={portfolioRef} className="flex-shrink-0 flex items-center h-full bg-[#faf8f5] wall-texture px-2 sm:px-[3vw] md:px-[5vw] relative">
+        <div ref={portfolioRef} className="flex-shrink-0 flex items-center h-full wall-texture px-2 sm:px-[3vw] md:px-[5vw] relative">
           {/* Couche d'ombre portée */}
           <div
             className="absolute inset-0 z-[10] pointer-events-none"
@@ -358,7 +358,7 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
         </div>
 
         {/* MUR 3: CONTACT */}
-        <section ref={contactRef} className="flex-shrink-0 w-screen h-full flex flex-col justify-center px-4 sm:px-6 md:px-[10vw] relative bg-[#faf8f5] wall-texture overflow-y-auto">
+        <section ref={contactRef} className="flex-shrink-0 w-screen h-full flex flex-col justify-center px-4 sm:px-6 md:px-[10vw] relative wall-texture overflow-y-auto">
           <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 md:gap-20 items-end py-8 sm:py-10 md:py-0">
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1.5 }}>
               <h2 className="text-3xl sm:text-5xl md:text-7xl lg:text-9xl serif italic mb-4 sm:mb-6 md:mb-12">Contact</h2>
