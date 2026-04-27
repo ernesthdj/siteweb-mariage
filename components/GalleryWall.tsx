@@ -10,6 +10,7 @@ import AddItemButton from '../src/components/admin/AddItemButton';
 import ItemForm from '../src/components/admin/ItemForm';
 import { LoveNote } from './ArtisticAccents';
 import PhotoFrame from './PhotoFrame';
+import BeamsBackground from './BeamsBackground';
 import type { Item, CreateItemPayload, UpdateItemPayload } from '../src/types';
 
 /** Carte visuelle d'une collection — style galerie murale */
@@ -301,8 +302,19 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
     };
   }, [activeSection]);
 
+  // Détecter le dark mode pour les beams
+  const [isDark, setIsDark] = useState(() => document.documentElement.getAttribute('data-theme') === 'dark');
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.getAttribute('data-theme') === 'dark');
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="relative w-screen h-screen overflow-hidden wall-texture">
+      {isDark && <BeamsBackground />}
       <motion.div
         ref={horizontalScrollRef}
         className="flex h-full w-full overflow-x-auto overflow-y-hidden items-center select-none"
