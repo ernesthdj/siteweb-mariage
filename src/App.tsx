@@ -65,9 +65,6 @@ const PublicSite: React.FC<{ isAdmin?: boolean }> = ({ isAdmin: _isAdmin = false
       </main>
 
       <AudioPlayer ref={audioPlayerRef} />
-
-      {/* Texture de grain globale */}
-      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-[var(--wall-bg)] mix-blend-multiply opacity-20 transition-[border-color] duration-[600ms]" />
     </div>
   );
 };
@@ -101,9 +98,6 @@ const PortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
       <main>{children}</main>
 
       <AudioPlayer ref={audioPlayerRef} />
-
-      {/* Texture de grain globale */}
-      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-[var(--wall-bg)] mix-blend-multiply opacity-20 transition-[border-color] duration-[600ms]" />
     </div>
   );
 };
@@ -152,9 +146,6 @@ const AdminPortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ childre
       <main>{children}</main>
 
       <AudioPlayer ref={audioPlayerRef} />
-
-      {/* Texture de grain globale */}
-      <div className="fixed inset-0 pointer-events-none z-[200] border-[30px] border-[var(--wall-bg)] mix-blend-multiply opacity-20 transition-[border-color] duration-[600ms]" />
 
       <AdminToolbar />
     </div>
