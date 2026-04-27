@@ -122,6 +122,11 @@
   background-color: rgba(237, 230, 219, 0.4);
 }
 
+/* Masquer le cadre grain en dark mode */
+[data-theme="dark"] .grain-border {
+  opacity: 0;
+}
+
 /* Glass card dark mode — contact form */
 [data-theme="dark"] .glass-card {
   background: rgba(255, 255, 255, 0.06);
