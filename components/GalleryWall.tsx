@@ -599,26 +599,9 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
             </motion.div>
 
             <div className="relative">
-              {/* Glassmorphism card */}
-              <div
-                className="relative z-10 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 overflow-hidden"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.4) 100%)',
-                  backdropFilter: 'blur(20px) saturate(1.2)',
-                  WebkitBackdropFilter: 'blur(20px) saturate(1.2)',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(255,255,255,0.1)',
-                  border: '1px solid rgba(255,255,255,0.45)',
-                }}
-              >
-                {/* Reflet lumineux subtil en haut à gauche */}
-                <div
-                  className="absolute top-0 left-0 w-full h-1/2 pointer-events-none rounded-t-2xl sm:rounded-t-3xl"
-                  style={{
-                    background: 'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%)',
-                  }}
-                />
-
-                <form className="relative space-y-5 sm:space-y-7" onSubmit={(e) => e.preventDefault()}>
+              {/* Glass card — style 21st.dev */}
+              <div className="glass-card relative z-10 flex flex-col gap-6 rounded-2xl border border-white/30 bg-white/30 p-5 sm:p-8 md:p-12 backdrop-blur-md">
+                <form className="flex flex-col gap-5 sm:gap-7" onSubmit={(e) => e.preventDefault()}>
                   <div>
                     <label htmlFor="contact-name" className="text-[8px] sm:text-[9px] uppercase tracking-[0.3em] text-zinc-400 mb-2 block">Votre Nom</label>
                     <input
@@ -626,7 +609,7 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
                       type="text"
                       placeholder="Marie & Thomas"
                       aria-label="Votre Nom"
-                      className="w-full border-b border-white/30 py-2 sm:py-3 outline-none focus:border-black/40 transition-colors text-sm font-light bg-transparent placeholder:text-zinc-300"
+                      className="w-full border-b border-black/10 py-2 sm:py-3 outline-none focus:border-black/30 transition-colors text-sm font-light bg-transparent placeholder:text-zinc-300"
                     />
                   </div>
                   <div>
@@ -636,7 +619,7 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
                       type="email"
                       placeholder="hello@exemple.com"
                       aria-label="Email"
-                      className="w-full border-b border-white/30 py-2 sm:py-3 outline-none focus:border-black/40 transition-colors text-sm font-light bg-transparent placeholder:text-zinc-300"
+                      className="w-full border-b border-black/10 py-2 sm:py-3 outline-none focus:border-black/30 transition-colors text-sm font-light bg-transparent placeholder:text-zinc-300"
                     />
                   </div>
                   <div>
@@ -645,16 +628,12 @@ const GalleryWall: React.FC<GalleryWallProps> = ({ activeSection, onSectionChang
                       id="contact-message"
                       placeholder="Parlez-nous de votre projet..."
                       aria-label="Votre message"
-                      className="w-full border-b border-white/30 py-2 sm:py-3 outline-none focus:border-black/40 transition-colors text-sm font-light h-24 sm:h-28 resize-none bg-transparent placeholder:text-zinc-300"
+                      className="w-full border-b border-black/10 py-2 sm:py-3 outline-none focus:border-black/30 transition-colors text-sm font-light h-24 sm:h-28 resize-none bg-transparent placeholder:text-zinc-300"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="group relative w-full py-3 sm:py-4 mt-2 sm:mt-4 rounded-xl overflow-hidden transition-all duration-500"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(30,30,30,0.9) 100%)',
-                      boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                    }}
+                    className="group relative w-full py-3 sm:py-4 mt-2 sm:mt-4 rounded-xl bg-black/85 overflow-hidden transition-all duration-500 hover:bg-black/90"
                   >
                     <span className="relative z-10 text-[8px] sm:text-[9px] uppercase tracking-[0.5em] font-medium text-white/90">
                       Envoyer

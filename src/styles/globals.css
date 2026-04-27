@@ -122,14 +122,34 @@
   background-color: rgba(237, 230, 219, 0.4);
 }
 
-/* Glassmorphism dark mode — contact form */
-[data-theme="dark"] .wall-texture .placeholder\:text-zinc-300::placeholder {
+/* Glass card dark mode — contact form */
+[data-theme="dark"] .glass-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .glass-card input,
+[data-theme="dark"] .glass-card textarea {
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #d4ccc0;
+}
+
+[data-theme="dark"] .glass-card input:focus,
+[data-theme="dark"] .glass-card textarea:focus {
+  border-color: rgba(237, 230, 219, 0.25);
+}
+
+[data-theme="dark"] .glass-card input::placeholder,
+[data-theme="dark"] .glass-card textarea::placeholder {
   color: #6e6458;
 }
 
-[data-theme="dark"] .wall-texture input:focus,
-[data-theme="dark"] .wall-texture textarea:focus {
-  border-color: rgba(237, 230, 219, 0.3) !important;
+[data-theme="dark"] .glass-card button {
+  background: rgba(237, 230, 219, 0.12);
+}
+
+[data-theme="dark"] .glass-card button:hover {
+  background: rgba(237, 230, 219, 0.18);
 }
 
 body {
