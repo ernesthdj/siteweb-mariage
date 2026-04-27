@@ -1,13 +1,13 @@
 /**
  * App — Point d'entree avec React Router
- * Route "/" -> site public (GalleryWall, Navigation, AudioPlayer)
- * Route "/portfolio/*" -> navigation hierarchique CMS (collections > albums > photos)
+ * Route "/" -> site public (GalleryWall avec scroll horizontal : Accueil + Portfolio + Contact)
+ * Route "/portfolio/:id/*" -> sous-pages albums/photos
  * Route "/admin" -> LoginPage si pas connecte, sinon site WYSIWYG + AdminToolbar
- * Route "/admin/portfolio/*" -> meme navigation CMS en mode admin
+ * Route "/admin/portfolio/:id/*" -> sous-pages albums/photos en mode admin
  */
 
-import React, { useState, useRef, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { WallSection } from '../types';
 import Navigation from '../components/Navigation';
 import GalleryWall from '../components/GalleryWall';
@@ -16,29 +16,33 @@ import { AdminProvider } from './components/admin/AdminContext';
 import { useAuth } from './hooks/useAuth';
 import LoginPage from './components/admin/LoginPage';
 import AdminToolbar from './components/admin/AdminToolbar';
-import PortfolioSection from './components/PortfolioSection';
 import AlbumSection from './components/AlbumSection';
 import PhotoSection from './components/PhotoSection';
 
 /** Site public : galerie, navigation, audio, grain overlay */
-const PublicSite: React.FC<{ isAdmin?: boolean }> = ({ isAdmin = false }) => {
+const PublicSite: React.FC<{ isAdmin?: boolean }> = ({ isAdmin: _isAdmin = false }) => {
   const [activeSection, setActiveSection] = useState<WallSection>(WallSection.HOME);
   const audioPlayerRef = useRef<AudioPlayerRef>(null);
   const hasTriggeredMusic = useRef(false);
-  const nav = useNavigate();
+  const location = useLocation();
+
+  // Auto-scroll vers portfolio quand on revient d'une sous-page
+  useEffect(() => {
+    const state = location.state as { scrollTo?: string } | null;
+    if (state?.scrollTo === 'portfolio') {
+      setActiveSection(WallSection.PORTFOLIO);
+      // Nettoyer le state pour eviter re-scroll
+      window.history.replaceState({}, '');
+    }
+  }, [location.state]);
 
   const handleNavigate = useCallback((section: WallSection) => {
-    if (section === WallSection.PORTFOLIO) {
-      // Naviguer vers la route Portfolio (CMS Supabase)
-      if (!hasTriggeredMusic.current) {
-        hasTriggeredMusic.current = true;
-        audioPlayerRef.current?.triggerPlay();
-      }
-      nav(isAdmin ? '/admin/portfolio' : '/portfolio');
-      return;
+    if (section === WallSection.PORTFOLIO && !hasTriggeredMusic.current) {
+      hasTriggeredMusic.current = true;
+      audioPlayerRef.current?.triggerPlay();
     }
     setActiveSection(section);
-  }, [nav, isAdmin]);
+  }, []);
 
   return (
     <div className="relative min-h-screen">
@@ -74,11 +78,9 @@ const PortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
   const nav = useNavigate();
 
   const handleNavigate = useCallback((section: WallSection) => {
-    if (section === WallSection.HOME) {
-      nav('/');
-    } else if (section === WallSection.PORTFOLIO) {
-      nav('/portfolio');
-    } else if (section === WallSection.CONTACT) {
+    if (section === WallSection.PORTFOLIO) {
+      nav('/', { state: { scrollTo: 'portfolio' } });
+    } else {
       nav('/');
     }
   }, [nav]);
@@ -113,11 +115,9 @@ const AdminPortfolioLayout: React.FC<{ children: React.ReactNode }> = ({ childre
   const nav = useNavigate();
 
   const handleNavigate = useCallback((section: WallSection) => {
-    if (section === WallSection.HOME) {
-      nav('/admin');
-    } else if (section === WallSection.PORTFOLIO) {
-      nav('/admin/portfolio');
-    } else if (section === WallSection.CONTACT) {
+    if (section === WallSection.PORTFOLIO) {
+      nav('/admin', { state: { scrollTo: 'portfolio' } });
+    } else {
       nav('/admin');
     }
   }, [nav]);
@@ -209,14 +209,8 @@ const App: React.FC = () => {
               </AdminPortfolioLayout>
             }
           />
-          <Route
-            path="/admin/portfolio"
-            element={
-              <AdminPortfolioLayout>
-                <PortfolioSection />
-              </AdminPortfolioLayout>
-            }
-          />
+          {/* /admin/portfolio redirige vers la page principale */}
+          <Route path="/admin/portfolio" element={<Navigate to="/admin" state={{ scrollTo: 'portfolio' }} replace />} />
 
           {/* Route admin accueil (site original + toolbar) */}
           <Route path="/admin" element={<AdminRoute />} />
@@ -238,14 +232,8 @@ const App: React.FC = () => {
               </PortfolioLayout>
             }
           />
-          <Route
-            path="/portfolio"
-            element={
-              <PortfolioLayout>
-                <PortfolioSection />
-              </PortfolioLayout>
-            }
-          />
+          {/* /portfolio redirige vers la page principale */}
+          <Route path="/portfolio" element={<Navigate to="/" state={{ scrollTo: 'portfolio' }} replace />} />
 
           {/* Route publique par defaut (site original) */}
           <Route path="/*" element={<PublicSite />} />
