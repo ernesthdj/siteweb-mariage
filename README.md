@@ -1,20 +1,95 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Atypique — Photographie de Mariage Fine Art
 
-# Run and deploy your AI Studio app
+Site vitrine immersif avec mini CMS pour un studio de photographie de mariage haut de gamme. Scroll horizontal, galeries dynamiques, dark mode cinematique, administration inline.
 
-This contains everything you need to run your app locally.
+**En production** — deploye sur Vercel.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1D5knLq0FK6UnFWy-DoS-2FR7sF5z7L_b
+---
 
-## Run Locally
+## Stack technique
 
-**Prerequisites:**  Node.js
+| Couche | Technologies |
+|--------|-------------|
+| **Frontend** | React 19 · TypeScript (strict) · Tailwind CSS · Framer Motion |
+| **Backend** | Supabase (PostgreSQL + Auth + RLS) |
+| **Media** | Cloudinary (CDN images/audio) |
+| **API** | Vercel Serverless Functions (proxy Cloudinary) |
+| **Deploiement** | Vercel |
+| **Build** | Vite |
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Fonctionnalites
+
+### Site public
+- Experience single-page immersive avec scroll horizontal
+- Trois sections : Accueil — Portfolio — Contact
+- Galeries en mosaique avec navigation par breadcrumb
+- Dark mode cinematique (beams dores animes en canvas, grain de film, effet verre givre)
+- Lecteur audio ambiant
+- Typographie premium (Cormorant Garamond · Montserrat · Mrs Saint Delafield)
+
+### CMS Admin
+- Authentification Supabase
+- Edition inline WYSIWYG : collections, albums, photos
+- Navigateur d'images Cloudinary integre
+- Drag-to-reorder, toggle de visibilite, operations groupees
+- Formulaires avec metadonnees extensibles (JSONB)
+
+---
+
+## Architecture
+
+```
+src/
+├── components/
+│   ├── admin/       CMS (login, toolbar, formulaires, navigateur Cloudinary)
+│   └── gallery/     Portfolio public (mosaique, breadcrumb, carrousel)
+├── hooks/           useAuth · useItems (CRUD Supabase) · useCloudinary
+├── lib/             Client Supabase
+├── styles/          Variables CSS, dark mode, glass cards
+└── types/           Types partages (Item, ItemType)
+api/
+└── cloudinary-browse.ts   Serverless function (proxy securise)
+docs/                      Documentation projet + migrations SQL
+```
+
+### Base de donnees
+
+Table unique `items` auto-referencee (collection > album > photo) avec RLS :
+- Anonyme : lecture seule (`visible = true`)
+- Authentifie : CRUD complet
+
+---
+
+## Demarrage
+
+```bash
+npm install
+npm run dev
+```
+
+Variables d'environnement (`.env.local`) :
+```
+VITE_SUPABASE_URL=...
+VITE_SUPABASE_ANON_KEY=...
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
+```
+
+---
+
+## Deploiement
+
+Deploye automatiquement sur Vercel. Configuration dans `vercel.json`.
+
+```bash
+npm run build    # Build production (dist/)
+```
+
+---
+
+## Licence
+
+Projet prive — usage professionnel.
